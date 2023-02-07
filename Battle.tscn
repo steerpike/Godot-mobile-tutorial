@@ -1,0 +1,204 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Images/Mobile RPG Mockup.png" type="Texture" id=1]
+[ext_resource path="res://Images/Dungeon.png" type="Texture" id=2]
+[ext_resource path="res://Battle.gd" type="Script" id=3]
+[ext_resource path="res://Slime.tscn" type="PackedScene" id=4]
+[ext_resource path="res://PlayerStats.gd" type="Script" id=5]
+[ext_resource path="res://StatsPanel.gd" type="Script" id=6]
+[ext_resource path="res://SwordActionButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://HealActionButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Rat.tscn" type="PackedScene" id=9]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Fade to new room"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fade:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fade:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Battle" type="Node"]
+script = ExtResource( 3 )
+enemies = [ ExtResource( 4 ), ExtResource( 9 ) ]
+
+[node name="PlayerStats" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="Dungeon" type="Sprite" parent="."]
+position = Vector2( 45, 80 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="EnemyPosition" type="Position2D" parent="."]
+position = Vector2( 43, 35 )
+
+[node name="Slime" parent="EnemyPosition" instance=ExtResource( 4 )]
+position = Vector2( 1, 1 )
+
+[node name="MobileRpgMockup" type="Sprite" parent="."]
+visible = false
+position = Vector2( 45, 80 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+margin_left = 16.0
+margin_top = 11.0
+margin_right = 131.0
+margin_bottom = 61.0
+rect_scale = Vector2( 0.5, 0.5 )
+mouse_filter = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
+
+[node name="NextRoomButton" type="Button" parent="UI/CenterContainer"]
+margin_top = 15.0
+margin_right = 115.0
+margin_bottom = 35.0
+text = "Enter next room"
+
+[node name="TextBoxPanel" type="Panel" parent="UI"]
+margin_left = 1.0
+margin_top = 138.0
+margin_right = 90.0
+margin_bottom = 160.0
+
+[node name="Textbox" type="RichTextLabel" parent="UI/TextBoxPanel"]
+margin_right = 178.0
+margin_bottom = 30.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_clip_content = false
+custom_constants/table_vseparation = 0
+custom_styles/normal = SubResource( 3 )
+tab_size = 3
+fit_content_height = true
+scroll_active = false
+
+[node name="StatsPanel" type="Panel" parent="UI"]
+margin_left = 9.0
+margin_top = 52.0
+margin_right = 155.0
+margin_bottom = 82.0
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_stretch_ratio = 0.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="StatsContainer" type="HBoxContainer" parent="UI/StatsPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.06667
+grow_vertical = 0
+size_flags_horizontal = 2
+size_flags_vertical = 12
+size_flags_stretch_ratio = 0.5
+custom_constants/separation = 0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="HP" type="Label" parent="UI/StatsPanel/StatsContainer"]
+margin_right = 48.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "HP
+25"
+align = 1
+
+[node name="AP" type="Label" parent="UI/StatsPanel/StatsContainer"]
+margin_left = 48.0
+margin_right = 97.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "AP
+3"
+align = 1
+
+[node name="MP" type="Label" parent="UI/StatsPanel/StatsContainer"]
+margin_left = 97.0
+margin_right = 146.0
+margin_bottom = 31.0
+size_flags_horizontal = 3
+text = "MP
+10"
+align = 1
+
+[node name="BattleActionButtons" type="GridContainer" parent="UI"]
+margin_left = 6.0
+margin_top = 76.0
+margin_right = 105.0
+margin_bottom = 156.0
+rect_min_size = Vector2( 20, 20 )
+rect_scale = Vector2( 0.8, 0.8 )
+size_flags_horizontal = 0
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+custom_constants/vseparation = 3
+custom_constants/hseparation = 8
+columns = 2
+
+[node name="SwordActionButton" parent="UI/BattleActionButtons" instance=ExtResource( 7 )]
+margin_right = 50.0
+text = "Sword"
+
+[node name="HealActionButton" parent="UI/BattleActionButtons" instance=ExtResource( 8 )]
+margin_left = 58.0
+margin_right = 99.0
+
+[node name="Fade" type="ColorRect" parent="."]
+visible = false
+margin_right = 90.0
+margin_bottom = 160.0
+mouse_filter = 2
+color = Color( 0.0352941, 0.0352941, 0.0352941, 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+"anims/Fade to new room" = SubResource( 1 )
+anims/RESET = SubResource( 2 )
+
+[connection signal="ap_changed" from="PlayerStats" to="UI/StatsPanel" method="_on_PlayerStats_ap_changed"]
+[connection signal="hp_changed" from="PlayerStats" to="UI/StatsPanel" method="_on_PlayerStats_hp_changed"]
+[connection signal="mp_changed" from="PlayerStats" to="UI/StatsPanel" method="_on_PlayerStats_mp_changed"]
+[connection signal="pressed" from="UI/CenterContainer/NextRoomButton" to="." method="_on_NextRoomButton_pressed"]
